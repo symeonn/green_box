@@ -1,0 +1,7 @@
+@reboot sleep 60 && /home/pi/green_box/CRON/vpn_connect.sh
+@reboot sleep 3m && /home/pi/green_box/main.sh
+*/30 * * * * /home/pi/green_box/CRON/sync_logs.sh
+0 10,22 * * * /home/pi/green_box/CRON/sync_data.sh
+#*/2 * * * * /home/pi/green_box/vpn_connect.sh
+#*/5 * * * * /home/pi/green_box/crontest.sh
+

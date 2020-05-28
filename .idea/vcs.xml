@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/SINGLE_SCRIPTS/CO2/libs/Seeed_Python_SGP30" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/SINGLE_SCRIPTS/CO2/libs/grove.py" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/SINGLE_SCRIPTS/humidity_temperature" vcs="Git" />
+  </component>
+</project>
