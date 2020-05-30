@@ -24,13 +24,13 @@ def start_monitoring():
 
         if temperature > highTemperatureLevel:
             GPIO.output(RELAY_GPIO_PIN, GPIO.LOW)  # on
-            print(f'Temperature: {temperature} *C - FAN on')
+            print('Temperature: {} *C - FAN on'.format(temperature))
         else:
             GPIO.output(RELAY_GPIO_PIN, GPIO.HIGH)  # off
-            print(f'Temperature: {temperature} *C - FAN off')
+            print('Temperature: {} *C - FAN off'.format(temperature))
 
         # print("watinig...")
-        time.sleep(120)  # 2m
+        time.sleep(300)  # 2m
 
 
 init()

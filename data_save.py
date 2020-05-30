@@ -5,8 +5,9 @@ import co2_data_collect
 import dht_data_collect
 import water_data_collect
 import time
-import pandas as pd
-import plotly.express as px
+
+# import pandas as pd
+# import plotly.express as px
 
 print("init data save")
 
@@ -17,7 +18,7 @@ csv_file_name = 'grow_data.csv'
 html_file_name = 'grow_data_plot.html'
 
 csv_file_full_path = fileFolder + csv_file_name
-html_file_full_path: str = fileFolder + html_file_name
+html_file_full_path = fileFolder + html_file_name
 
 
 def get_sensors_data():
@@ -52,13 +53,13 @@ def write_data(readings):  # voc, co2, humidity, temperature, waterTemperature
         writer.writerow(readings)
 
 
-def write_html_file():
-    df = pd.read_csv(csv_file_full_path)
-    fig = px.line(df, x='datetime', y=['CO2', 'VOC', 'humidity', 'temperature', 'water_temperature', 'pH', 'EC'],
-                  title='Apple Share Prices over time (2014)')
-    with open(html_file_full_path, 'w') as file:
-        html = fig.to_html()
-        file.write(html)
+# def write_html_file():
+#     df = pd.read_csv(csv_file_full_path)
+#     fig = px.line(df, x='datetime', y=['CO2', 'VOC', 'humidity', 'temperature', 'water_temperature', 'pH', 'EC'],
+#                   title='Apple Share Prices over time (2014)')
+#     with open(html_file_full_path, 'w') as file:
+#         html = fig.to_html()
+#         file.write(html)
 
 
 while True:
@@ -70,7 +71,7 @@ while True:
 
         voc, co2, humidity, temperature, water_temperature = get_sensors_data()
         write_data([voc, co2, humidity, temperature, water_temperature])
-        write_html_file()
+        # write_html_file()
 
         print("Data saving done.")
 
