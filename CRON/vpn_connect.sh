@@ -6,21 +6,19 @@ addDate() {
     done
 }
 
-
 logsPath="/home/pi/gb_logs/vpn.log"
 vpn_conn=$(sudo ifconfig | grep tun)
 
-
-echo $vpn_conn | addDate >> $logsPath
+vpn_ip=$(sudo  ifconfig | grep "inet 10.8.0" | sed -e 's/^[[:space:]]*//' | cut -d' ' -f 2)
+echo "Current IP: ""$vpn_ip" | addDate >> $logsPath
+#echo "$vpn_conn" | addDate >> $logsPath
 
 if [[ $vpn_conn == '' ]]
 then
-
 	echo "VPN not connected. Connecting..." | addDate >> $logsPath
 	sudo openvpn --config /home/pi/N.ovpn
 else
 	echo "VPN connected. Idle..." | addDate >> $logsPath
 fi
-
 
 #echo $(ifconfig)
