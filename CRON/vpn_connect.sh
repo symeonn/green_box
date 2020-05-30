@@ -9,8 +9,6 @@ addDate() {
 logsPath="/home/pi/gb_logs/vpn.log"
 vpn_conn=$(sudo ifconfig | grep tun)
 
-vpn_ip=$(sudo  ifconfig | grep "inet 10.8.0" | sed -e 's/^[[:space:]]*//' | cut -d' ' -f 2)
-echo "Current IP: ""$vpn_ip" | addDate >> $logsPath
 #echo "$vpn_conn" | addDate >> $logsPath
 
 if [[ $vpn_conn == '' ]]
@@ -20,5 +18,10 @@ then
 else
 	echo "VPN connected. Idle..." | addDate >> $logsPath
 fi
+
+sleep 60
+
+vpn_ip=$(sudo  ifconfig | grep "inet 10.8.0" | sed -e 's/^[[:space:]]*//' | cut -d' ' -f 2)
+echo "Current IP: ""$vpn_ip" | addDate >> $logsPath
 
 #echo $(ifconfig)
