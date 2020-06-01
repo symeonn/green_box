@@ -14,7 +14,7 @@ vpn_conn=$(sudo ifconfig | grep tun)
 if [[ $vpn_conn == '' ]]
 then
 	echo "VPN not connected. Connecting..." | addDate >> $logsPath
-	sudo openvpn --config /home/pi/N.ovpn
+	sudo openvpn --config /home/pi/N.ovpn $
 else
 	echo "VPN connected. Idle..." | addDate >> $logsPath
 fi

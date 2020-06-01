@@ -5,6 +5,8 @@ import time
 highTemperatureLevel = 22
 lowTemperatureLevel = 20
 
+timeIntervalSeconds = 300  # 5m
+
 # relay IN1, GPIO 4 for FAN
 RELAY_GPIO_PIN = 4
 
@@ -29,8 +31,7 @@ def start_monitoring():
             GPIO.output(RELAY_GPIO_PIN, GPIO.HIGH)  # off
             print('Temperature: {} *C - FAN off'.format(temperature))
 
-        # print("watinig...")
-        time.sleep(300)  # 2m
+        time.sleep(timeIntervalSeconds)
 
 
 init()

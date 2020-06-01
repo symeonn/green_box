@@ -16,22 +16,22 @@ GPIO.setup(RELAY_GPIO_PIN, GPIO.OUT)  # GPIO Assign mode
 time.sleep(1)
 
 
-def runNightHours():
-    print("air pump ON")
+def run_night_hours():
+    print("air pump ON (night hours)")
     GPIO.output(RELAY_GPIO_PIN, GPIO.LOW)  # on
     time.sleep(3600)  # 1h
 
-    print("air pump OFF")
+    print("air pump OFF (night hours)")
     GPIO.output(RELAY_GPIO_PIN, GPIO.HIGH)  # off
     time.sleep(900)  # 15m
 
 
-def runDayHours():
-    print("air pump ON")
+def run_day_hours():
+    print("air pump ON (day hours)")
     GPIO.output(RELAY_GPIO_PIN, GPIO.LOW)  # on
     time.sleep(1800)  # 30m
 
-    print("air pump OFF")
+    print("air pump OFF (day hours)")
     GPIO.output(RELAY_GPIO_PIN, GPIO.HIGH)  # off
     time.sleep(900)  # 15m
 
@@ -40,8 +40,6 @@ while True:
     now = datetime.now()
 
     if settings.nightHourBegin <= now.hour or now.hour <= settings.nightHourEnd:
-        print("night hours")
-        runNightHours()
+        run_night_hours()
     else:
-        print("day hours")
-        runDayHours()
+        run_day_hours()

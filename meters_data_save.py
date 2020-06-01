@@ -8,77 +8,47 @@ print("init meters data save")
 fileName = 'grow_data.csv'
 fileFolder = '/home/pi/gb_CSV/'
 
-def proceed():
-	print "Waiting for meters readings..."
-	waterTemperature, ph, ec = water_data_collect.getMetersData()
-#	print("Water temperature: {} :: pH: {} :: EC: {} ".format(waterTemperature, ph, ec))
+
+def get_meters_data():
+    print("Waiting for meters readings...")
+    water_temperature, ph, ec = water_data_collect.getMetersData()
+    return water_temperature, ph, ec
 
 
-	writeData(waterTemperature, ph, ec)
-#	writeData(0,10.6,5)
+def write_data(ph, ec):  # voc, co2, humidity, temperature, waterTemperature
 
-def writeData(waterTemperature, ph, ec): #voc, co2, humidity, temperature, waterTemperature
+    # print("Writing data...")
 
-	print("Writing data...")
-        #now = datetime.now() # current date and time
-        #print(now)
-        #fileTimestamp = now.strftime("%Y-%m-%d")
-	#print(fileTimestamp)
-	#print(fileTimestamp + fileNamePostfix)
+    file_full_path = fileFolder + fileName
 
-	#timestamp = (now - datetime(1970, 1, 1)).total_seconds()
+    with open(file_full_path) as file:
 
-#	print(readings)
-#	readings.insert(0, timestamp)
-#	print(readings)
+        lines = file.read().splitlines()
 
-#	for i in readings :
-#    		print(i)
-	#readings = readings.insert(0, now)
+        if lines:
+            last_line = lines[-1]
 
-        fileFullPath = fileFolder+fileName
+            cells = last_line.split(',')
 
+            if float(cells[6]) < 0 <= float(ph):
+                print("Writing pH value: {}".format(float(ph)))
+                cells[6] = float(ph)
 
+            if float(cells[7]) < 0 <= float(ec):
+                print("Writing EC value: {}".format(float(ec)))
+                cells[7] = float(ec)
 
-	with open(fileFullPath) as file:
-	    #writer = csv.writer(file)
-	    #writer.writerow(readings)
-#		csv.reader
-#		file.read()
+    with open(file_full_path, "w") as file:
+        writer = csv.writer(file, delimiter=',')
+        # print lines
+        for line in lines[:-1]:
+            writer.writerow(line.split(','))
+        writer.writerow(cells)
 
-		lines = file.read().splitlines()
-
-#		print lines
-
-		if lines:
-			first_line = lines[:1]
-			last_line = lines[-1]
-#			print first_line
-#			print last_line
-			cells = last_line.split(',')
-#			print(cells)
-#			print(cells[6])
-			if float(cells[6]) < 0 and float(ph) >= 0:
-				print("Writing pH value: {}".format(float(ph)))
-				cells[6] = float(ph)
-#				print(cells)
-
-                        if float(cells[7]) < 0 and float(ec) >= 0:
-                                print("Writing EC value: {}".format(float(ec)))
-                                cells[7] = float(ec)
-#                                print(cells)
-#			print lines
-#			lines[-1] = cells
-#			print lines
-
-
-	with open(fileFullPath, "w") as file:
-		writer = csv.writer(file, delimiter=',')
-#		print lines
-		for line in lines[:-1]:
-			writer.writerow(line.split(','))
-	       	writer.writerow(cells)
 
 while True:
-	proceed()
-	time.sleep(30) #30s
+    water_temperature, ph, ec = get_meters_data()
+
+    write_data(water_temperature, ph, ec)
+
+    time.sleep(30)  # 30s
