@@ -49,6 +49,6 @@ def write_data(ph, ec):  # voc, co2, humidity, temperature, waterTemperature
 while True:
     water_temperature, ph, ec = get_meters_data()
 
-    write_data(water_temperature, ph, ec)
+    write_data(ph, ec)
 
     time.sleep(30)  # 30s
