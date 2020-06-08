@@ -39,7 +39,7 @@ def run_day_hours():
 while True:
     now = datetime.now()
 
-    if settings.nightHourBegin <= now.hour or now.hour <= settings.nightHourEnd:
+    if settings.night_hour_begin <= now.hour or now.hour <= settings.night_hour_end:
         run_night_hours()
     else:
         run_day_hours()
