@@ -24,7 +24,7 @@ def start_monitoring():
         if temperature > settings.fan_enable_temperature_limit_celsius and not fan_running:
             GPIO.output(RELAY_GPIO_PIN, GPIO.LOW)  # on
             print('Temperature: {} *C - FAN on'.format(temperature))
-        elif fan_running:
+        elif temperature <= settings.fan_enable_temperature_limit_celsius and fan_running:
             GPIO.output(RELAY_GPIO_PIN, GPIO.HIGH)  # off
             print('Temperature: {} *C - FAN off'.format(temperature))
 
