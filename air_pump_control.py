@@ -17,29 +17,29 @@ time.sleep(1)
 
 
 def run_night_hours():
-    print("air pump ON (night hours)")
+    print("air pump ON (for {} minutes)".format(settings.air_pump_on_interval_night_seconds / 60))
     GPIO.output(RELAY_GPIO_PIN, GPIO.LOW)  # on
-    time.sleep(3600)  # 1h
+    time.sleep(settings.air_pump_on_interval_night_seconds)
 
-    print("air pump OFF (night hours)")
+    print("air pump OFF (for {} minutes)".format(settings.air_pump_off_interval_night_seconds / 60))
     GPIO.output(RELAY_GPIO_PIN, GPIO.HIGH)  # off
-    time.sleep(900)  # 15m
+    time.sleep(settings.air_pump_off_interval_night_seconds)
 
 
 def run_day_hours():
-    print("air pump ON (day hours)")
+    print("air pump ON (for {} minutes)".format(settings.air_pump_on_interval_day_seconds / 60))
     GPIO.output(RELAY_GPIO_PIN, GPIO.LOW)  # on
-    time.sleep(1800)  # 30m
+    time.sleep(settings.air_pump_on_interval_day_seconds)
 
-    print("air pump OFF (day hours)")
+    print("air pump OFF (for {} minutes)".format(settings.air_pump_off_interval_day_seconds / 60))
     GPIO.output(RELAY_GPIO_PIN, GPIO.HIGH)  # off
-    time.sleep(900)  # 15m
+    time.sleep(settings.air_pump_off_interval_day_seconds)
 
 
 while True:
     now = datetime.now()
 
-    if settings.night_hour_begin <= now.hour or now.hour <= settings.night_hour_end:
+    if settings.air_pump_night_hour_begin <= now.hour or now.hour <= settings.air_pump_night_hour_end:
         run_night_hours()
     else:
         run_day_hours()

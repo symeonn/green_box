@@ -1,5 +1,5 @@
 @reboot sleep 60 && /home/pi/green_box/CRON/vpn_connect.sh
 @reboot sleep 3m && /home/pi/green_box/main.sh
-*/30 9-23 * * * /home/pi/green_box/CRON/sync_logs.sh
-*/30 9-23 * * * /home/pi/green_box/CRON/sync_data.sh
+*/15 9-23 * * * /home/pi/green_box/CRON/sync_logs.sh
+*/15 9-23 * * * /home/pi/green_box/CRON/sync_data.sh
 @weekly logrotate -s /home/pi/green_box/OTHER/logrotator/logrotare.status /home/pi/green_box/OTHER/logrotator/logrotator.conf

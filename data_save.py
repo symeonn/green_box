@@ -5,20 +5,19 @@ import co2_data_collect
 import dht_data_collect
 import water_data_collect
 import time
+import settings
 
 # import pandas as pd
 # import plotly.express as px
 
 print("init data save")
 
-syncHours = [10, 22]
-
-fileFolder = '/home/pi/gb_CSV/'
+file_folder = '/home/pi/gb_CSV/'
 csv_file_name = 'grow_data.csv'
 html_file_name = 'grow_data_plot.html'
 
-csv_file_full_path = fileFolder + csv_file_name
-html_file_full_path = fileFolder + html_file_name
+csv_file_full_path = file_folder + csv_file_name
+html_file_full_path = file_folder + html_file_name
 
 
 def get_sensors_data():
@@ -66,7 +65,7 @@ while True:
 
     now = datetime.now()
 
-    if now.hour in syncHours:
+    if settings.data_save_night_hour_end <= now.hour <= settings.data_save_night_hour_begin:
         print("Getting sensors readings...")
 
         voc, co2, humidity, temperature, water_temperature = get_sensors_data()
@@ -75,4 +74,4 @@ while True:
 
         print("Data saving done.")
 
-    time.sleep(55 * 60)  # 55m
+    time.sleep(settings.data_save_delay_seconds)
