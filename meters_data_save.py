@@ -1,5 +1,4 @@
 import csv
-from datetime import datetime
 import time
 import water_data_collect
 
@@ -11,7 +10,7 @@ fileFolder = '/home/pi/gb_CSV/'
 
 def get_meters_data():
     print("Waiting for meters readings...")
-    water_temperature, ph, ec = water_data_collect.get_meters_data()
+    water_temperature, ph, ec = water_data_collect.get_all_meters_data()
     return water_temperature, ph, ec
 
 

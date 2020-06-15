@@ -8,12 +8,8 @@ def get_data():
     temperature = get_water_temperature_data()
     print("T: {} ".format(temperature))
 
-    temperature, ph, ec = get_meters_data()
+    temperature, ph, ec = get_all_meters_data()
     print("T: {} :: pH: {} :: EC: {} ".format(temperature, ph, ec))
-
-
-def get_water_temperature_data():
-    return get_water_data(False)
 
 
 def get_usb_port_path():
@@ -48,7 +44,7 @@ def get_water_data(all_sensors):
             # print(ph)
             # print(ec)
 
-            if float(ph) >= 0 or float(ec) >= 0:
+            if float(ph) > 0 or float(ec) > 0:
                 print("T: {} :: pH: {} :: EC: {} ".format(temperature, ph, ec))
                 ser.close()
                 return temperature, ph, ec
@@ -56,9 +52,9 @@ def get_water_data(all_sensors):
         time.sleep(5)
 
 
-def get_meters_data():
+def get_all_meters_data():
     return get_water_data(True)
 
-# getData()
-# getMetersData()
-# getWaterTemperatureData()
+
+def get_water_temperature_data():
+    return get_water_data(False)
