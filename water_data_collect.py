@@ -1,56 +1,64 @@
 import serial
 import time
-
-def getData():
-	temperature = getWaterTemperatureData()
-	print("T: {} ".format(temperature))
-
-	temperature, ph, ec = getMetersData()
-	print("T: {} :: pH: {} :: EC: {} ".format(temperature, ph, ec))
-
-def getWaterTemperatureData():
-	return getWaterData(False)
+import fnmatch
+import os
 
 
-def getWaterData(all):
+def get_data():
+    temperature = get_water_temperature_data()
+    print("T: {} ".format(temperature))
 
-        #Raspberry Pi reads temperature and humidity sensor data from Arduino
-#	with serial.Serial() as ser:
- #   		ser.baudrate = 9600
-  #  		ser.port = '/dev/ttyUSB0'
-#		ser.open()
-    		#ser.write(b'hello')
-	ser = serial.Serial('/dev/ttyUSB0', 9600)
-
-	while True:
-        	if ser.in_waiting > 0:
-               		rawserial = ser.readline()
-                	rowSerial = rawserial.decode('utf-8').strip('\r\n')
-#		          	print(rowSerial)
-	       	        datasplit = rowSerial.split(',')
-                	temperature = datasplit[0]
-			if not all :
-				ser.close()
-				return temperature
-
-	               	ph = datasplit[1]
-			ec = datasplit[2]
-
-#	        	        print(ph)
-#                		print(ec)
-
-			if float(ph) >= 0 or float(ec) >= 0:
-				print("T: {} :: pH: {} :: EC: {} ".format(temperature, ph, ec))
-				ser.close()
-			        return temperature, ph, ec
-
-		time.sleep(5)
-
-def getMetersData():
-
-	return getWaterData(True)
+    temperature, ph, ec = get_meters_data()
+    print("T: {} :: pH: {} :: EC: {} ".format(temperature, ph, ec))
 
 
-#getData()
-#getMetersData()
-#getWaterTemperatureData()
+def get_water_temperature_data():
+    return get_water_data(False)
+
+
+def get_usb_port_path():
+    search_path = '/dev/'
+
+    for file in os.listdir(search_path):
+        if fnmatch.fnmatch(file, 'ttyUSB*'):
+            # print(file)
+            return search_path + file
+
+    return ''
+
+
+def get_water_data(all_sensors):
+    usb_port_path = get_usb_port_path()
+    ser = serial.Serial(usb_port_path, 9600)
+
+    while True:
+        if ser.in_waiting > 0:
+            raw_serial = ser.readline()
+            row_serial = raw_serial.decode('utf-8').strip('\r\n')
+            # print(rowSerial)
+            data_split = row_serial.split(',')
+            temperature = data_split[0]
+            if not all_sensors:
+                ser.close()
+                return temperature
+
+            ph = data_split[1]
+            ec = data_split[2]
+
+            # print(ph)
+            # print(ec)
+
+            if float(ph) >= 0 or float(ec) >= 0:
+                print("T: {} :: pH: {} :: EC: {} ".format(temperature, ph, ec))
+                ser.close()
+                return temperature, ph, ec
+
+        time.sleep(5)
+
+
+def get_meters_data():
+    return get_water_data(True)
+
+# getData()
+# getMetersData()
+# getWaterTemperatureData()

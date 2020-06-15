@@ -21,13 +21,13 @@ html_file_full_path = file_folder + html_file_name
 
 
 def get_sensors_data():
-    voc, co2 = co2_data_collect.getData()
+    voc, co2 = co2_data_collect.get_data()
     print("VOC: {} :: CO2: {} ".format(voc, co2))
 
     humidity, temperature = dht_data_collect.getData()
     print("Humidity: {} :: Temperature: {} ".format(humidity, temperature))
 
-    water_temperature = water_data_collect.getWaterTemperatureData()
+    water_temperature = water_data_collect.get_water_temperature_data()
     print("Water temperature: {} ".format(water_temperature))
 
     return voc, co2, humidity, temperature, water_temperature
