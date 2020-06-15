@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# BEWARE OF LINE ENDINGS
+
+
 logsPath="/home/pi/gb_logs/cron.log"
 
 addDate() {
@@ -8,5 +11,5 @@ addDate() {
   done
 }
 
-echo "Daily restart..." | addDate >>$logsPath
+echo "Daily restart..." | addDate >> $logsPath
 sudo reboot

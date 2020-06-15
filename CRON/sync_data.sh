@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# BEWARE OF LINE ENDINGS
+
+
 logsPath="/home/pi/gb_logs/cron.log"
 
 addDate() {
@@ -16,4 +19,4 @@ syncData() {
   rsync -azvhO /home/pi/gb_CSV greenbox@192.168.0.19:/share/green_box/
 }
 
-syncData | addDate >>$logsPath
+syncData | addDate >> $logsPath
