@@ -2,7 +2,6 @@
 
 # BEWARE OF LINE ENDINGS
 
-
 addDate() {
   while IFS= read -r line; do
     printf '%s: %s\n' "$(date '+%m-%d-%Y %H:%M   ')" "$line"

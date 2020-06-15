@@ -2,7 +2,6 @@
 
 # BEWARE OF LINE ENDINGS
 
-
 logsPath="/home/pi/gb_logs/cron.log"
 
 addDate() {
