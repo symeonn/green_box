@@ -8,9 +8,5 @@ addDate() {
   done
 }
 
-syncLogs() {
-  echo "SYNC logs:"
-  rsync -azvhO /home/pi/gb_logs greenbox@192.168.0.19:/share/green_box/
-}
-
-syncLogs | addDate >>$logsPath
+echo "Daily restart..." | addDate >>$logsPath
+sudo reboot
