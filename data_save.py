@@ -24,7 +24,7 @@ def get_sensors_data():
     voc, co2 = co2_data_collect.get_data()
     print("VOC: {} :: CO2: {} ".format(voc, co2))
 
-    humidity, temperature = dht_data_collect.getData()
+    humidity, temperature = dht_data_collect.get_read_data(3)
     print("Humidity: {} :: Temperature: {} ".format(humidity, temperature))
 
     water_temperature = water_data_collect.get_water_temperature_data()

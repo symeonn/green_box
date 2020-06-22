@@ -19,7 +19,7 @@ def start_monitoring():
     while True:
 
         fan_running = not GPIO.input(RELAY_GPIO_PIN)  # negation because of inverted connection to relays
-        humidity, temperature = dht_data_collect.getData()
+        humidity, temperature = dht_data_collect.get_read_data(5)
 
         if temperature > settings.fan_enable_temperature_limit_celsius and not fan_running:
             GPIO.output(RELAY_GPIO_PIN, GPIO.LOW)  # on
