@@ -2,7 +2,7 @@
 
 # BEWARE OF LINE ENDINGS
 
-logsPath="/home/pi/gb_logs/cron.log"
+logsPath="/home/pi/gb_data/gb_logs/cron.log"
 
 addDate() {
   while IFS= read -r line; do
@@ -12,10 +12,10 @@ addDate() {
 
 syncData() {
   echo "SYNC images:"
-  rsync -azvhO /home/pi/gb_cam_images greenbox@192.168.0.19:/share/green_box/
+  rsync -azvhO /home/pi/gb_data/gb_cam_images greenbox@192.168.0.19:/share/green_box/
 
   echo "SYNC CSV:"
-  rsync -azvhO /home/pi/gb_CSV greenbox@192.168.0.19:/share/green_box/
+  rsync -azvhO /home/pi/gb_data/gb_csv greenbox@192.168.0.19:/share/green_box/
 }
 
-syncData | addDate >> $logsPath
+syncData | addDate >>$logsPath

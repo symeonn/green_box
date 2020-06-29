@@ -2,7 +2,7 @@
 
 # BEWARE OF LINE ENDINGS
 
-logsPath="/home/pi/gb_logs/cron.log"
+logsPath="/home/pi/gb_data/gb_logs/cron.log"
 
 addDate() {
   while IFS= read -r line; do
@@ -10,5 +10,5 @@ addDate() {
   done
 }
 
-echo "Daily restart..." | addDate >> $logsPath
+echo "Daily restart..." | addDate >>$logsPath
 sudo reboot

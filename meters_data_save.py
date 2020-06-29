@@ -5,7 +5,7 @@ import water_data_collect
 print("init meters data save")
 
 fileName = 'grow_data.csv'
-fileFolder = '/home/pi/gb_CSV/'
+fileFolder = '/home/pi/gb_data/gb_csv/'
 
 
 def get_meters_data():

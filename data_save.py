@@ -12,12 +12,14 @@ import settings
 
 print("init data save")
 
-file_folder = '/home/pi/gb_CSV/'
+file_folder = '/home/pi/gb_data/gb_csv/'
 csv_file_name = 'grow_data.csv'
-html_file_name = 'grow_data_plot.html'
+# html_file_name = 'grow_data_plot.html'
 
 csv_file_full_path = file_folder + csv_file_name
-html_file_full_path = file_folder + html_file_name
+
+
+# html_file_full_path = file_folder + html_file_name
 
 
 def get_sensors_data():

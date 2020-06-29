@@ -4,3 +4,4 @@
 */15 9-23 * * * /home/pi/green_box/CRON/sync_data.sh
 0 5 * * 1 logrotate -s /home/pi/green_box/OTHER/logrotator/logrotare.status /home/pi/green_box/OTHER/logrotator/logrotator.conf
 5 1 * * * /home/pi/green_box/CRON/rpi_restart.sh
+*/10 7-23 * * * /home/pi/green_box/CRON/git_hub/sync_current_data.sh

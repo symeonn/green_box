@@ -10,9 +10,9 @@ addDate() {
   done
 }
 
-syncLogs() {
-  echo "SYNC logs:"
-  rsync -azvhO /home/pi/gb_data/gb_logs greenbox@192.168.0.19:/share/green_box/
+syncCurrentData() {
+  echo "SYNC current data:"
+  python3 /home/pi/green_box/CRON/git_hub/sync_github.py
 }
 
-syncLogs | addDate >>$logsPath
+syncCurrentData | addDate >>$logsPath

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-logPath='/home/pi/gb_logs'
+logPath='/home/pi/gb_data/gb_logs'
 
 tail -f $logPath/temperature_control.log &
 tail -f $logPath/meters_data_save.log &

@@ -58,14 +58,14 @@ server {
                 # First attempt to serve request as file, then
                 # as directory, then fall back to displaying a 404.
 #                root /var/www/html;
-#               root /home/pi/gb_logs;
+#               root /home/pi/gb_data/gb_logs;
                 #index index.html index.htm index.nginx-debian.html;
 #                try_files $uri $uri/ =404;
 
 #                location ~* {
 #                       index index.html index.htm index.nginx-debian.html;
 #                        try_files $uri $uri/ =404;
-#                       try_files $uri $uri/ /home/pi/gb_logs/index.html;
+#                       try_files $uri $uri/ /home/pi/gb_data/gb_logs/index.html;
 
 #                        add_header Content-Type text/plain;
 #                }
@@ -79,15 +79,15 @@ server {
                 # First attempt to serve request as file, then
                 # as directory, then fall back to displaying a 404.
 #                root /var/www/html;
-#		root /home/pi/gb_logs;
-		alias /home/pi/gb_logs;
+#		root /home/pi/gb_data/gb_logs;
+		alias /home/pi/gb_data/gb_logs;
                 #index index.html index.htm index.nginx-debian.html;
 #                try_files $uri $uri/ =404;
 
 		location ~* {
 #		        index index.html index.htm index.nginx-debian.html;
 	                try_files $uri $uri/ =404;
-#			try_files $uri $uri/ /home/pi/gb_logs/index.html;
+#			try_files $uri $uri/ /home/pi/gb_data/gb_logs/index.html;
 
 			add_header Content-Type text/plain;
 		}
