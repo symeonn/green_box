@@ -11,3 +11,5 @@ air_pump_night_hour_end = 6
 data_save_delay_seconds = 3600  # 1h
 data_save_night_hour_begin = 22
 data_save_night_hour_end = 10
+
+logs_path = '/home/pi/gb_data/gb_logs/'

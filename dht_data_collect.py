@@ -12,13 +12,13 @@ def get_single_read_data():
 
     try:
         float(humidity)
-    except ValueError:
+    except Exception as e:
         print("humidity Not a float")
         humidity = 0.0
 
     try:
         float(temperature)
-    except ValueError:
+    except Exception as e:
         print("temperature Not a float")
         temperature = 0.0
 
