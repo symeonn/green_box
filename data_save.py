@@ -6,38 +6,40 @@ import dht_data_collect
 import water_data_collect
 import time
 import settings
+import file_logger
 
 # import pandas as pd
 # import plotly.express as px
 
-print("init data save")
+
+logs_name = 'data_save.log'
+file_logger.init(logs_name)
 
 file_folder = '/home/pi/gb_data/gb_csv/'
 csv_file_name = 'grow_data.csv'
-# html_file_name = 'grow_data_plot.html'
-
 csv_file_full_path = file_folder + csv_file_name
 
 
-# html_file_full_path = file_folder + html_file_name
+def init():
+    file_logger.info('Init data save')
 
 
 def get_sensors_data():
     voc, co2 = co2_data_collect.get_data()
-    print("VOC: {} :: CO2: {} ".format(voc, co2))
+    file_logger.info("VOC: {} :: CO2: {} ".format(voc, co2))
 
     humidity, temperature = dht_data_collect.get_read_data(3)
-    print("Humidity: {} :: Temperature: {} ".format(humidity, temperature))
+    file_logger.info("Humidity: {} :: Temperature: {} ".format(humidity, temperature))
 
     water_temperature = water_data_collect.get_water_temperature_data()
-    print("Water temperature: {} ".format(water_temperature))
+    file_logger.info("Water temperature: {} ".format(water_temperature))
 
     return voc, co2, humidity, temperature, water_temperature
 
 
 def write_data(readings):  # voc, co2, humidity, temperature, waterTemperature
 
-    print("Writing data to CSV...")
+    file_logger.info("Writing data to CSV...")
 
     current_datetime = datetime.now()
 
@@ -62,18 +64,26 @@ def write_data(readings):  # voc, co2, humidity, temperature, waterTemperature
 #         html = fig.to_html()
 #         file.write(html)
 
+def start():
+    while True:
+        try:
+            now = datetime.now()
 
-while True:
+            if settings.data_save_night_hour_end <= now.hour <= settings.data_save_night_hour_begin:
+                file_logger.info("Getting sensors readings...")
 
-    now = datetime.now()
+                voc, co2, humidity, temperature, water_temperature = get_sensors_data()
+                write_data([voc, co2, humidity, temperature, water_temperature])
+                # write_html_file()
 
-    if settings.data_save_night_hour_end <= now.hour <= settings.data_save_night_hour_begin:
-        print("Getting sensors readings...")
+                file_logger.info("Data saving done.")
 
-        voc, co2, humidity, temperature, water_temperature = get_sensors_data()
-        write_data([voc, co2, humidity, temperature, water_temperature])
-        # write_html_file()
+            time.sleep(settings.data_save_delay_seconds)
 
-        print("Data saving done.")
+        except Exception as e:
+            file_logger.error('Error in: ' + os.path.basename(__file__))
+            file_logger.error(e)
 
-    time.sleep(settings.data_save_delay_seconds)
+
+init()
+start()

@@ -1,22 +1,28 @@
 import csv
 import time
 import water_data_collect
+import file_logger
+import os
 
-print("init meters data save")
+logs_name = 'meters_data_save.log'
+file_logger.init(logs_name)
+
+file_logger.info("Init meters data save")
 
 fileName = 'grow_data.csv'
 fileFolder = '/home/pi/gb_data/gb_csv/'
 
+ph_cell_number = 6
+ec_cell_number = 7
+
 
 def get_meters_data():
-    print("Waiting for meters readings...")
+    file_logger.info("Waiting for meters readings...")
     water_temperature, ph, ec = water_data_collect.get_all_meters_data()
     return water_temperature, ph, ec
 
 
 def write_data(ph, ec):  # voc, co2, humidity, temperature, waterTemperature
-
-    # print("Writing data...")
 
     file_full_path = fileFolder + fileName
 
@@ -29,25 +35,32 @@ def write_data(ph, ec):  # voc, co2, humidity, temperature, waterTemperature
 
             cells = last_line.split(',')
 
-            if float(cells[6]) < 0 <= float(ph):
-                print("Writing pH value: {}".format(float(ph)))
-                cells[6] = float(ph)
+            if float(cells[ph_cell_number]) < 0 <= float(ph):
+                file_logger.info("Writing pH value: {}".format(float(ph)))
+                cells[ph_cell_number] = float(ph)
 
-            if float(cells[7]) < 0 <= float(ec):
-                print("Writing EC value: {}".format(float(ec)))
-                cells[7] = float(ec)
+            if float(cells[ec_cell_number]) < 0 <= float(ec):
+                file_logger.info("Writing EC value: {}".format(float(ec)))
+                cells[ec_cell_number] = float(ec)
 
     with open(file_full_path, "w") as file:
         writer = csv.writer(file, delimiter=',')
-        # print lines
         for line in lines[:-1]:
             writer.writerow(line.split(','))
         writer.writerow(cells)
 
 
-while True:
-    water_temperature, ph, ec = get_meters_data()
+def start():
+    while True:
+        try:
 
-    write_data(ph, ec)
+            water_temperature, ph, ec = get_meters_data()
+            write_data(ph, ec)
 
-    time.sleep(30)  # 30s
+            time.sleep(30)  # 30s
+        except Exception as e:
+            file_logger.error('Error in: ' + os.path.basename(__file__))
+            file_logger.error(e)
+
+
+start()

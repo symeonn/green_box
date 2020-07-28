@@ -1,75 +1,54 @@
-
 import subprocess
 from datetime import datetime
 import RPi.GPIO as GPIO
 import time
+import file_logger
+import os
+import settings
 
-print("init image capture")
-captureHour = 15
+RELAY_GPIO_PIN = 8  # relay IN1, GPIO 8 for FAN
 
-def captureImage():
+logs_name = 'image_capture.log'
+file_logger.init(logs_name)
 
-	print("Capturing image...")
-	now = datetime.now()  # current date and time
-
-	#	print(now)
-	fileName = now.strftime("%Y-%m-%d_%H%M") + ".jpg"
-	#	print(fileTimestamp)
-
-	bashCommand = "fswebcam --no-banner -q -r 1600x1200 -p YUYV -S 1 --jpeg 95 /home/pi/gb_data/gb_cam_images/{}".format(
-		fileName)
-
-	#	ledWhiteOn()
-	GPIO.setmode(GPIO.BCM)
-
-	RELAY_GPIO_PIN = 8  # relay IN1, GPIO 8 for FAN
-
-	GPIO.setup(RELAY_GPIO_PIN, GPIO.OUT)  # GPIO Assign mode
-	time.sleep(1)
-
-        GPIO.output(RELAY_GPIO_PIN, GPIO.LOW) # on
+file_logger.info("Init image capture")
 
 
-	process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
-	output, error = process.communicate()
+def captureImage(timestamp):
+    file_logger.info("Capturing image...")
 
-	time.sleep(20)
+    file_name = timestamp.strftime("%Y-%m-%d_%H%M") + ".jpg"
+    bash_command = "fswebcam --no-banner -q -r 1600x1200 -p YUYV -S 1 --jpeg 95 /home/pi/gb_data/gb_cam_images/{}" \
+        .format(file_name)
 
-        GPIO.output(RELAY_GPIO_PIN, GPIO.HIGH) # off
+    GPIO.setmode(GPIO.BCM)
 
-        time.sleep(5)
+    GPIO.setup(RELAY_GPIO_PIN, GPIO.OUT)  # GPIO Assign mode
+    time.sleep(1)
+    GPIO.output(RELAY_GPIO_PIN, GPIO.LOW)  # on
 
-        GPIO.cleanup()
+    process = subprocess.Popen(bash_command.split(), stdout=subprocess.PIPE)
+    output, error = process.communicate()
 
-#	print(output)
-#	print(error)
-	print("Image captured: {}".format(fileName))
+    time.sleep(20)
 
+    GPIO.output(RELAY_GPIO_PIN, GPIO.HIGH)  # off
 
-def ledWhiteOn():
-	GPIO.setmode(GPIO.BCM)
+    time.sleep(5)
 
-	RELAY_GPIO_PIN = 8 # relay IN1, GPIO 8 for FAN
+    GPIO.cleanup()
 
-	GPIO.setup(RELAY_GPIO_PIN, GPIO.OUT) # GPIO Assign mode
-	time.sleep(1)
-
-	GPIO.output(RELAY_GPIO_PIN, GPIO.LOW) # on
-	time.sleep(60)
-	GPIO.output(RELAY_GPIO_PIN, GPIO.HIGH) # off
-
-
-	time.sleep(5)
-
-	GPIO.cleanup()
+    file_logger.info("Image captured: {}".format(file_name))
 
 
 while True:
-	now = datetime.now()
+    try:
+        now = datetime.now()
 
-	if now.hour == captureHour:
-		captureImage()
+        if now.hour == settings.image_capture_hour:
+            captureImage(now)
 
-	time.sleep(55 * 60) #55m
-
-#capture()
+        time.sleep(55 * 60)  # 55m
+    except Exception as e:
+        file_logger.error('Error in: ' + os.path.basename(__file__))
+        file_logger.error(e)

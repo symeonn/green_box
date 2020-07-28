@@ -13,3 +13,5 @@ data_save_night_hour_begin = 22
 data_save_night_hour_end = 10
 
 logs_path = '/home/pi/gb_data/gb_logs/'
+
+image_capture_hour = 15
