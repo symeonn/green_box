@@ -7,7 +7,7 @@ import os
 
 # relay IN2, GPIO 27 for air pump
 RELAY_GPIO_PIN = 27
-logs_name = 'air_pump_control.py'
+logs_name = 'air_pump_control.log'
 file_logger.init(logs_name)
 
 
