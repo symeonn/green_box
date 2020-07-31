@@ -19,6 +19,7 @@ ec_cell_number = 7
 def get_meters_data():
     file_logger.info("Waiting for meters readings...")
     water_temperature, ph, ec = water_data_collect.get_all_meters_data()
+    file_logger.info("T: {} :: pH: {} :: EC: {} ".format(water_temperature, ph, ec))
     return water_temperature, ph, ec
 
 
